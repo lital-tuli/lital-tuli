@@ -31,6 +31,7 @@ const handleAsyncActions = (builder, asyncThunk, key, actionType = "replace") =>
 		.addCase(asyncThunk.rejected, (state, action) => {
 			state.status = "failed";
 			state.error = action.error.message;
+			console.log("Error fetching articles:", action.error.message);
 		});
 };
 

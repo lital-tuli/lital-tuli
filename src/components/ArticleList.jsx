@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFirstArticles } from "../redux/features/articlesSlice";
+import { useNavigate } from "react-router-dom";
 
 function ArticlesList() {
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { articles, status } = useSelector((state) => state.articles);
 
@@ -15,10 +17,13 @@ function ArticlesList() {
 	if (status === "loading") {
 		return <div>Loading...</div>;
 	}
-
 	if (status === "failed") {
 		return <div>Error fetching articles</div>;
 	}
+
+	const handleArticleClick = (articleId) => {
+		navigate(`/articles/${articleId}`); // Navigate to the article details page
+	};
 
 	return (
 		<>
@@ -26,8 +31,8 @@ function ArticlesList() {
 				articles.map((article) => (
 					<div key={article.id} className='card p-3'>
 						<h2>{article.title}</h2>
-						<p>{article.content}</p>
-						<button>To the full article</button>
+						<p>Written By {article.author_name}</p>
+						<button onClick={() => handleArticleClick(article.id)}>To the full article</button>
 					</div>
 				))
 			) : (

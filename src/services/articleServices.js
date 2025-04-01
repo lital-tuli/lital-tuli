@@ -1,9 +1,17 @@
 import axios from "axios";
-const apiUrl = process.env.API_URL || "http://localhost:8000/api";
+const apiUrl = import.meta.env.API_URL;
 
-export const getAllArticles = async () => {
+export const getFirstArticles = async () => {
 	try {
 		const response = await axios.get(`${apiUrl}/articles`);
+		return response.data;
+	} catch (error) {
+		console.log(error);
+	}
+};
+export const getArticlesByPage = async (pageNum) => {
+	try {
+		const response = await axios.get(`${apiUrl}/articles?page=${pageNum}`);
 		return response.data;
 	} catch (error) {
 		console.log(error);

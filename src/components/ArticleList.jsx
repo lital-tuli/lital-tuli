@@ -22,7 +22,7 @@ function ArticlesList() {
 	}
 
 	const handleArticleClick = (articleId) => {
-		navigate(`/articles/${articleId}`); // Navigate to the article details page
+		navigate(`/articles/${articleId}`);
 	};
 
 	return (

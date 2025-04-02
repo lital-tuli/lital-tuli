@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getArticleById } from "../services/articleServices";
-import { getCommentsOfArticle } from "../services/commentsServices";
 import CommentItem from "./CommentItem";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AddComment from "./AddComment";
+import { fetchComments } from "../redux/features/commentSlice";
 
 function Article() {
+	const dispatch = useDispatch();
 	const { articleId } = useParams();
 	const [article, setArticle] = useState(null);
-	const [comments, setComments] = useState([]);
 	const [isFetched, setIsFetched] = useState(false);
 	const { isAuthenticated, userGroup } = useSelector((state) => state.auth);
+	const { comments } = useSelector((state) => state.comments);
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -19,8 +20,7 @@ function Article() {
 			try {
 				const response = await getArticleById(articleId);
 				setArticle(response);
-				const commentsResponse = await getCommentsOfArticle(articleId);
-				setComments(commentsResponse);
+				dispatch(fetchComments(articleId));
 			} catch (error) {
 				console.error("Error fetching article:", error);
 			} finally {
@@ -35,7 +35,7 @@ function Article() {
 		<>
 			{isFetched ? (
 				<div className='container mt-3 d-flex flex-column gap-5'>
-					<article className='border p-3 rounded' style={{ minHeight: "30vh" }}>
+					<article className='border p-3 rounded' style={{ minHeight: "30vh" }} key={article.id}>
 						<div className='article-header d-flex gap-3 justify-content-between'>
 							<h2>{article.title}</h2>
 							<div className='d-flex flex-column align-items-end'>

@@ -24,7 +24,7 @@ function CommentItem({ comment, depth = 0 }) {
 					<button className='btn text-secondary btn-sm' onClick={handleReply}>
 						reply
 					</button>
-					{showRepling && <AddComment articleId={comment.article} reply_to={comment.id} />}
+					{showRepling && <AddComment articleId={comment.article} reply_to={comment.id} setShowReplying={setShowReplying} />}
 				</>
 			)}
 

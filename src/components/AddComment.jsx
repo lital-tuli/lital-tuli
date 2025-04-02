@@ -1,8 +1,10 @@
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { createComment } from "../services/commentsServices";
+import { useDispatch } from "react-redux";
+import { addNewComment } from "../redux/features/commentSlice";
 
-function AddComment({ articleId, reply_to }) {
+function AddComment({ articleId, reply_to, setShowReplying }) {
+	const dispatch = useDispatch();
 	const formik = useFormik({
 		initialValues: {
 			content: "",
@@ -13,11 +15,10 @@ function AddComment({ articleId, reply_to }) {
 		}),
 		onSubmit: async (values) => {
 			try {
-				console.log(values);
-				const response = await createComment(values, articleId);
+				const response = dispatch(addNewComment({ comment: values, articleId }));
 				if (response) {
-					console.log("Comment added successfully", response);
-					formik.resetForm(); // Reset the form after successful submission
+					formik.resetForm();
+					setShowReplying(false);
 				}
 			} catch (error) {
 				console.log(error);

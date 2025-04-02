@@ -1,9 +1,14 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/features/authSlice";
 
 function Navbar() {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const handleLogout = () => {
+		dispatch(logout());
+		navigate("/login");
+	};
 	const { isAuthenticated, username } = useSelector((state) => state.auth);
 	return (
 		<>
@@ -18,7 +23,7 @@ function Navbar() {
 					<div>
 						{isAuthenticated ? (
 							<>
-								<button className='btn' onClick={() => dispatch(logout())}>
+								<button className='btn' onClick={() => handleLogout()}>
 									Logout
 								</button>
 							</>

@@ -32,8 +32,6 @@ export const createComment = async (comment, articleId) => {
 				Authorization: `Bearer ${token}`,
 			},
 		});
-		console.log("Comment created:", response.data);
-
 		return response.data.comment;
 	} catch (error) {
 		console.log(error);

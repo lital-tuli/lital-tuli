@@ -1,9 +1,9 @@
 import axios from "axios";
-const apiUrl = process.env.API_URL || "http://localhost:8000/api";
+const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
 
 export const getComment = async (commentId) => {
 	try {
-		const response = await axios.get(`${apiUrl}/comments/${commentId}`);
+		const response = await axios.get(`${apiUrl}/comments/${commentId}/`);
 		return response.data;
 	} catch (error) {
 		console.log(error);
@@ -11,7 +11,7 @@ export const getComment = async (commentId) => {
 };
 export const getCommentsOfArticle = async (articleId) => {
 	try {
-		const response = await axios.get(`${apiUrl}/comments/article/${articleId}`);
+		const response = await axios.get(`${apiUrl}/comments/article/${articleId}/`);
 		return response.data;
 	} catch (error) {
 		console.log(error);
@@ -21,7 +21,7 @@ export const getCommentsOfArticle = async (articleId) => {
 export const createComment = async (comment, articleId) => {
 	try {
 		const token = localStorage.getItem("token");
-		const response = await axios.post(`${apiUrl}/article/${articleId}/comments`, comment, {
+		const response = await axios.post(`${apiUrl}/article/${articleId}/comments/`, comment, {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
@@ -35,7 +35,7 @@ export const createComment = async (comment, articleId) => {
 export const updateComment = async (comment, commentId) => {
 	try {
 		const token = localStorage.getItem("token");
-		const response = await axios.patch(`${apiUrl}/comments/${commentId}`, comment, {
+		const response = await axios.patch(`${apiUrl}/comments/${commentId}/`, comment, {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
@@ -49,7 +49,7 @@ export const updateComment = async (comment, commentId) => {
 export const deleteComment = async (commentId) => {
 	try {
 		const token = localStorage.getItem("token");
-		const response = await axios.delete(`${apiUrl}/comments/${commentId}`, {
+		const response = await axios.delete(`${apiUrl}/comments/${commentId}/`, {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},

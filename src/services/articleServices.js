@@ -1,5 +1,5 @@
 import axios from "axios";
-const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
 
 export const getFirstArticles = async () => {
 	try {
@@ -11,7 +11,7 @@ export const getFirstArticles = async () => {
 };
 export const getArticlesByPage = async (pageNum) => {
 	try {
-		const response = await axios.get(`${apiUrl}/articles?page=${pageNum}`);
+		const response = await axios.get(`${apiUrl}/articles?page=${pageNum}/`);
 		return response.data;
 	} catch (error) {
 		console.log(error);
@@ -19,7 +19,7 @@ export const getArticlesByPage = async (pageNum) => {
 };
 export const getArticleById = async (articleId) => {
 	try {
-		const response = await axios.get(`${apiUrl}/articles/${articleId}`);
+		const response = await axios.get(`${apiUrl}/articles/${articleId}/`);
 		return response.data;
 	} catch (error) {
 		console.log(error);
@@ -28,7 +28,7 @@ export const getArticleById = async (articleId) => {
 export const createArticle = async (article) => {
 	try {
 		const token = localStorage.getItem("token");
-		const response = await axios.post(`${apiUrl}/articles`, article, {
+		const response = await axios.post(`${apiUrl}/articles/`, article, {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
@@ -41,7 +41,7 @@ export const createArticle = async (article) => {
 export const updateArticle = async (articleId, article) => {
 	try {
 		const token = localStorage.getItem("token");
-		const response = await axios.put(`${apiUrl}/articles/${articleId}`, article, {
+		const response = await axios.put(`${apiUrl}/articles/${articleId}/`, article, {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
@@ -55,7 +55,7 @@ export const updateArticle = async (articleId, article) => {
 export const partialUpdateArticle = async (articleId, article) => {
 	try {
 		const token = localStorage.getItem("token");
-		const response = await axios.patch(`${apiUrl}/articles/${articleId}`, article, {
+		const response = await axios.patch(`${apiUrl}/articles/${articleId}/`, article, {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
@@ -69,7 +69,7 @@ export const partialUpdateArticle = async (articleId, article) => {
 export const deleteArticle = async (articleId) => {
 	try {
 		const token = localStorage.getItem("token");
-		const response = await axios.delete(`${apiUrl}/articles/${articleId}`, {
+		const response = await axios.delete(`${apiUrl}/articles/${articleId}/`, {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},

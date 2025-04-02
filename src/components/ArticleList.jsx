@@ -29,8 +29,13 @@ function ArticlesList() {
 		<>
 			{Array.isArray(articles) && articles.length > 0 ? (
 				articles.map((article) => (
-					<div key={article.id} className='card p-3'>
-						<h2>{article.title}</h2>
+					<div key={article.id} className='card p-3' style={{ width: "23vw", minWidth: "250px" }}>
+						<div className='d-flex justify-content-between gap-2'>
+							<h2 className='text-capitalize'>{article.title}</h2>
+							<p style={{ fontSize: "0.7rem" }}>
+								{new Date(article.publish_date).toLocaleDateString()} {new Date(article.publish_date).toLocaleTimeString()}
+							</p>
+						</div>
 						<p>Written By {article.author_name}</p>
 						<button onClick={() => handleArticleClick(article.id)}>To the full article</button>
 					</div>

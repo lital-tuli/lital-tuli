@@ -12,7 +12,7 @@ export const getFirstArticles = async () => {
 };
 export const getArticlesByPage = async (pageNum) => {
 	try {
-		const response = await axios.get(`${apiUrl}/articles?page=${pageNum}/`);
+		const response = await axios.get(`${apiUrl}/articles/?page=${pageNum}`);
 		return response.data;
 	} catch (error) {
 		console.log(error);

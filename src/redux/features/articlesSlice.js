@@ -9,8 +9,10 @@ export const fetchArticlesByPage = createAsyncThunk("articles/fetchArticlesByPag
 	return await articleService.getArticlesByPage(pageNum);
 });
 
-export const addNewArticle = createAsyncThunk("articles/addNewArticle", async (article) => {
-	return await articleService.createArticle(article);
+export const addNewArticle = createAsyncThunk("articles/addNewArticle", async (article, thunkAPI) => {
+	const response = await articleService.createArticle(article);
+	thunkAPI.dispatch(fetchFirstArticles());
+	return response;
 });
 
 const handleAsyncActions = (builder, asyncThunk, key, actionType = "replace") => {
@@ -27,6 +29,7 @@ const handleAsyncActions = (builder, asyncThunk, key, actionType = "replace") =>
 			} else if (actionType === "replace") {
 				state[key] = action.payload.results || action.payload;
 			}
+			state.count = action.payload.count || state.count; // Update the count
 		})
 		.addCase(asyncThunk.rejected, (state, action) => {
 			state.status = "failed";
@@ -39,6 +42,7 @@ const articlesSlice = createSlice({
 	name: "articles",
 	initialState: {
 		articles: [],
+		count: 0,
 		status: "idle", // "idle" | "loading" | "succeeded" | "failed"
 		error: null,
 	},
@@ -46,7 +50,6 @@ const articlesSlice = createSlice({
 	extraReducers: (builder) => {
 		handleAsyncActions(builder, fetchFirstArticles, "articles", "replace");
 		handleAsyncActions(builder, fetchArticlesByPage, "articles", "append");
-		handleAsyncActions(builder, addNewArticle, "articles", "prepend");
 	},
 });
 

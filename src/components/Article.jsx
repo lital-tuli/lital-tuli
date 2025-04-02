@@ -37,9 +37,12 @@ function Article() {
 				<div className='container mt-3 d-flex flex-column gap-5'>
 					<article className='border p-3 rounded' style={{ minHeight: "30vh" }} key={article.id}>
 						<div className='article-header d-flex gap-3 justify-content-between'>
-							<h2>{article.title}</h2>
+							<h2 className='text-capitalize'>{article.title}</h2>
 							<div className='d-flex flex-column align-items-end'>
 								<p>Written By {article.author_name}</p>
+								<p style={{ fontSize: "0.8rem" }}>
+									On {new Date(article.publish_date).toLocaleDateString()} {new Date(article.publish_date).toLocaleTimeString()}
+								</p>
 								<button className='btn btn-secondary' style={{ fontSize: "0.8rem" }} onClick={() => navigate(-1)}>
 									Go Back
 								</button>

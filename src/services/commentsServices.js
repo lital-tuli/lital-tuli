@@ -9,9 +9,10 @@ export const getComment = async (commentId) => {
 		console.log(error);
 	}
 };
+
 export const getCommentsOfArticle = async (articleId) => {
 	try {
-		const response = await axios.get(`${apiUrl}/comments/article/${articleId}/`);
+		const response = await axios.get(`${apiUrl}/article/${articleId}/comments/`);
 		return response.data;
 	} catch (error) {
 		console.log(error);

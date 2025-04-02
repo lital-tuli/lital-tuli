@@ -1,4 +1,5 @@
 import axios from "axios";
+import { refreshToken } from "./usersServices";
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
 
 export const getComment = async (commentId) => {
@@ -21,7 +22,11 @@ export const getCommentsOfArticle = async (articleId) => {
 
 export const createComment = async (comment, articleId) => {
 	try {
-		const token = localStorage.getItem("token");
+		const token = await refreshToken();
+		if (!token) {
+			console.log("Token not found");
+			return;
+		}
 		const response = await axios.post(`${apiUrl}/article/${articleId}/comments/`, comment, {
 			headers: {
 				Authorization: `Bearer ${token}`,
@@ -35,7 +40,11 @@ export const createComment = async (comment, articleId) => {
 
 export const updateComment = async (comment, commentId) => {
 	try {
-		const token = localStorage.getItem("token");
+		const token = await refreshToken();
+		if (!token) {
+			console.log("Token not found");
+			return;
+		}
 		const response = await axios.patch(`${apiUrl}/comments/${commentId}/`, comment, {
 			headers: {
 				Authorization: `Bearer ${token}`,
@@ -49,7 +58,11 @@ export const updateComment = async (comment, commentId) => {
 
 export const deleteComment = async (commentId) => {
 	try {
-		const token = localStorage.getItem("token");
+		const token = await refreshToken();
+		if (!token) {
+			console.log("Token not found");
+			return;
+		}
 		const response = await axios.delete(`${apiUrl}/comments/${commentId}/`, {
 			headers: {
 				Authorization: `Bearer ${token}`,

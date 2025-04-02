@@ -9,61 +9,76 @@ export const loginUser = createAsyncThunk("auth/login", async (credentials, thun
 		return thunkAPI.rejectWithValue(error.response?.data || "Login failed");
 	}
 });
-
-export const refreshToken = createAsyncThunk("auth/refreshToken", async (_, thunkAPI) => {
+export const accessToken = createAsyncThunk("auth/accessToken", async (_, thunkAPI) => {
 	try {
-		const response = await authService.refreshToken(); // Call API to refresh token
+		const refreshToken = sessionStorage.getItem("refresh_token");
+		if (!refreshToken) throw new Error("No refresh token found");
+		const response = await authService.refreshToken(refreshToken);
 		return response;
 	} catch (error) {
-		return thunkAPI.rejectWithValue(error.response?.data || "Refresh failed");
+		return thunkAPI.rejectWithValue(error.response?.data || "Token refresh failed");
 	}
 });
 
 const parseJwt = (token) => {
 	try {
+		if (!token) return null;
 		return JSON.parse(atob(token.split(".")[1]));
 	} catch (e) {
-		return {};
+		return null;
 	}
 };
 
-const refreshTokenExist = sessionStorage.getItem("refresh_token");
-const initialUserGroup = refreshToken ? parseJwt(refreshTokenExist).user_group || null : null;
+const refreshToken = sessionStorage.getItem("refresh_token");
+const initialState = {
+	accessToken: null,
+	refreshToken,
+	userGroup: [],
+	username: null,
+	isAuthenticated: !!refreshToken,
+	status: "idle",
+};
 
 const authSlice = createSlice({
 	name: "auth",
-	initialState: {
-		isAuthenticated: !!refreshTokenExist,
-		userGroup: initialUserGroup,
-		status: "idle", // "idle" | "loading" | "succeeded" | "failed"
-		error: null,
-	},
+	initialState,
 	reducers: {
 		logout: (state) => {
-			sessionStorage.removeItem("refresh_token");
+			state.accessToken = null;
+			state.refreshToken = null;
+			state.userGroup = [];
+			state.username = null;
 			state.isAuthenticated = false;
-			state.userGroup = null;
+			sessionStorage.removeItem("refresh_token");
 		},
 	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(loginUser.fulfilled, (state, action) => {
 				const { refresh, access } = action.payload;
-				sessionStorage.setItem("refresh_token", refresh); // Store refresh token
-				const decodedToken = parseJwt(access); // Decode JWT to extract user info
+				sessionStorage.setItem("refresh_token", refresh);
+				const decodedToken = parseJwt(access);
 				state.isAuthenticated = true;
 				state.userGroup = decodedToken.user_group;
+				state.username = decodedToken.username;
 				state.status = "succeeded";
 			})
 			.addCase(loginUser.rejected, (state, action) => {
 				state.status = "failed";
 				state.error = action.payload;
 			})
-			.addCase(refreshToken.fulfilled, (state, action) => {
-				const { access } = action.payload;
+			.addCase(accessToken.fulfilled, (state, action) => {
+				const access = action.payload;
 				const decodedToken = parseJwt(access);
+				state.userGroup = decodedToken.groups;
+				state.username = decodedToken.username;
+				state.accessToken = access;
 				state.isAuthenticated = true;
-				state.userGroup = decodedToken.user_group;
+				state.status = "succeeded";
+			})
+			.addCase(accessToken.rejected, (state) => {
+				state.accessToken = null;
+				state.isAuthenticated = false; // If refresh fails, log out
 			});
 	},
 });

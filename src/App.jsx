@@ -5,11 +5,23 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Article from "./components/Article";
 import AddArticle from "./components/AddArticle";
-
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AddButton from "./components/AddButton";
 
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { accessToken } from "./redux/features/authSlice";
+
 function App() {
+	const dispatch = useDispatch();
+	const { isAuthenticated, userGroup = [] } = useSelector((state) => state.auth);
+
+	useEffect(() => {
+		if (isAuthenticated) {
+			dispatch(accessToken());
+		}
+	}, [isAuthenticated, dispatch]);
+
 	return (
 		<>
 			<Router>
@@ -22,7 +34,7 @@ function App() {
 					<Route path='/articles/:articleId' element={<Article />} />
 					<Route path='*' element={<h1>Not Found</h1>} />
 				</Routes>
-				<AddButton />
+				{isAuthenticated && (userGroup.includes("admin") || userGroup.includes("editor")) ? <AddButton /> : null}
 			</Router>
 		</>
 	);

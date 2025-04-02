@@ -4,14 +4,17 @@ import { logout } from "../redux/features/authSlice";
 
 function Navbar() {
 	const dispatch = useDispatch();
-	const { isAuthenticated } = useSelector((state) => state.auth);
+	const { isAuthenticated, username } = useSelector((state) => state.auth);
 	return (
 		<>
 			<nav className='navbar navbar-expand-lg px-5'>
 				<div className='container-fluid'>
-					<NavLink className='navbar-brand' to='/'>
-						Blog
-					</NavLink>
+					<div className='d-flex align-items-end'>
+						<NavLink className='navbar-brand' to='/'>
+							Blog
+						</NavLink>
+						{isAuthenticated && <p className='text-center'>Welcome,{username}</p>}
+					</div>
 					<div>
 						{isAuthenticated ? (
 							<>

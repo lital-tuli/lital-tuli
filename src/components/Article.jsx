@@ -3,12 +3,15 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getArticleById } from "../services/articleServices";
 import { getCommentsOfArticle } from "../services/commentsServices";
 import CommentItem from "./CommentItem";
+import { useSelector } from "react-redux";
+import AddComment from "./AddComment";
 
 function Article() {
 	const { articleId } = useParams();
 	const [article, setArticle] = useState(null);
 	const [comments, setComments] = useState([]);
 	const [isFetched, setIsFetched] = useState(false);
+	const { isAuthenticated, userGroup } = useSelector((state) => state.auth);
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -44,16 +47,12 @@ function Article() {
 						</div>
 						<p>{article.content}</p>
 					</article>
-					<form action=''>
-						<h4>Add Comment</h4>
-						<div className='mb-3'>
-							<label htmlFor='comment' className='form-label'></label>
-							<textarea className='form-control' id='comment' rows={3} placeholder='Write your comment here...'></textarea>
+					{isAuthenticated && (
+						<div>
+							<h4>Add Comment</h4>
+							<AddComment articleId={articleId} reply_to={null} />
 						</div>
-						<button type='submit' className='btn btn-primary'>
-							Submit
-						</button>
-					</form>
+					)}
 					<div className='comments p-3 rounded'>
 						<h4>Comments</h4>
 						{comments.length > 0 ? comments.map((comment) => <CommentItem key={comment.id} comment={comment} />) : <p>No comments available</p>}

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { refreshToken } from "./usersServices";
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
 
 export const getFirstArticles = async () => {
@@ -27,7 +28,11 @@ export const getArticleById = async (articleId) => {
 };
 export const createArticle = async (article) => {
 	try {
-		const token = localStorage.getItem("token");
+		const token = await refreshToken();
+		if (!token) {
+			console.log("Token not found");
+			return;
+		}
 		const response = await axios.post(`${apiUrl}/articles/`, article, {
 			headers: {
 				Authorization: `Bearer ${token}`,
@@ -40,7 +45,11 @@ export const createArticle = async (article) => {
 };
 export const updateArticle = async (articleId, article) => {
 	try {
-		const token = localStorage.getItem("token");
+		const token = await refreshToken();
+		if (!token) {
+			console.log("Token not found");
+			return;
+		}
 		const response = await axios.put(`${apiUrl}/articles/${articleId}/`, article, {
 			headers: {
 				Authorization: `Bearer ${token}`,

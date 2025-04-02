@@ -3,7 +3,11 @@ const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
 
 export const getUsers = async () => {
 	try {
-		const token = localStorage.getItem("token");
+		const token = await refreshToken();
+		if (!token) {
+			console.log("Token not found");
+			return;
+		}
 		const response = await axios.get(`${apiUrl}/users/`, {
 			headers: {
 				Authorization: `Bearer ${token}`,
@@ -17,7 +21,11 @@ export const getUsers = async () => {
 
 export const getUser = async (userId) => {
 	try {
-		const token = localStorage.getItem("token");
+		const token = await refreshToken();
+		if (!token) {
+			console.log("Token not found");
+			return;
+		}
 		const response = await axios.get(`${apiUrl}/users/${userId}`, {
 			headers: {
 				Authorization: `Bearer ${token}`,
@@ -49,9 +57,9 @@ export const loginUser = async (user) => {
 
 export const refreshToken = async () => {
 	try {
-		const refreshToken = localStorage.getItem("refresh_token");
+		const refreshToken = sessionStorage.getItem("refresh_token");
 		const response = await axios.post(`${apiUrl}/token/refresh/`, { refresh: refreshToken });
-		return response.data;
+		return response.data.access;
 	} catch (error) {
 		console.log(error);
 	}
@@ -59,7 +67,11 @@ export const refreshToken = async () => {
 
 export const updateUser = async (user, userId) => {
 	try {
-		const token = localStorage.getItem("token");
+		const token = await refreshToken();
+		if (!token) {
+			console.log("Token not found");
+			return;
+		}
 		const response = await axios.put(`${apiUrl}/users/${userId}/`, user, {
 			headers: {
 				Authorization: `Bearer ${token}`,
@@ -73,7 +85,11 @@ export const updateUser = async (user, userId) => {
 
 export const deleteUser = async (userId) => {
 	try {
-		const token = localStorage.getItem("token");
+		const token = await refreshToken();
+		if (!token) {
+			console.log("Token not found");
+			return;
+		}
 		const response = await axios.delete(`${apiUrl}/users/${userId}/`, {
 			headers: {
 				Authorization: `Bearer ${token}`,

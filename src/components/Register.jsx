@@ -1,8 +1,18 @@
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { registerUser } from "../services/usersServices";
+import { useEffect } from "react";
 
 function Register() {
+	const navigate = useNavigate();
+	const { isAuthenticated } = useSelector((state) => state.auth);
+	useEffect(() => {
+		if (isAuthenticated) {
+			navigate("/");
+		}
+	}, []);
 	const formik = useFormik({
 		initialValues: {
 			name: "",
@@ -31,6 +41,10 @@ function Register() {
 		onSubmit: async (values) => {
 			try {
 				console.log(values);
+				const response = await registerUser(values);
+				if (response) {
+					console.log("User registered successfully", response);
+				}
 			} catch (error) {
 				console.log(error);
 			}

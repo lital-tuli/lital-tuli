@@ -1,12 +1,14 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchFirstArticles } from "../redux/features/articlesSlice";
+import { deleteArticle, fetchFirstArticles } from "../redux/features/articlesSlice";
 import { useNavigate } from "react-router-dom";
+import { MdDelete } from "react-icons/md";
 
 function ArticlesList() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { articles, status } = useSelector((state) => state.articles);
+	const { userGroup } = useSelector((state) => state.auth);
 
 	useEffect(() => {
 		if (status === "idle") {
@@ -24,6 +26,9 @@ function ArticlesList() {
 	const handleArticleClick = (articleId) => {
 		navigate(`/articles/${articleId}`);
 	};
+	const handleDelete = (articleId) => {
+		dispatch(deleteArticle(articleId));
+	};
 
 	return (
 		<>
@@ -38,6 +43,11 @@ function ArticlesList() {
 						</div>
 						<p>Written By {article.author_name}</p>
 						<button onClick={() => handleArticleClick(article.id)}>To the full article</button>
+						{userGroup.includes("admin") && (
+							<div className='d-flex justify-content-center gap-2 mt-3'>
+								<MdDelete style={{ height: "1.5rem", width: "1.5rem", cursor: "pointer" }} onClick={() => handleDelete(article.id)} />
+							</div>
+						)}
 					</div>
 				))
 			) : (

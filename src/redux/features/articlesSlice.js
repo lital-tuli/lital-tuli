@@ -15,6 +15,12 @@ export const addNewArticle = createAsyncThunk("articles/addNewArticle", async (a
 	return response;
 });
 
+export const deleteArticle = createAsyncThunk("articles/deleteArticle", async (articleId, thunkAPI) => {
+	const response = await articleService.deleteArticle(articleId);
+	thunkAPI.dispatch(fetchFirstArticles());
+	return response;
+});
+
 const handleAsyncActions = (builder, asyncThunk, key, actionType = "replace") => {
 	builder
 		.addCase(asyncThunk.pending, (state) => {

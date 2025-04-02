@@ -9,6 +9,11 @@ export const addNewComment = createAsyncThunk("comments/addNewComment", async ({
 	thunkAPI.dispatch(fetchComments(articleId));
 	return response;
 });
+export const deleteComment = createAsyncThunk("comments/deleteComment", async ({ commentId, articleId }, thunkAPI) => {
+	const response = await commentService.deleteComment(commentId);
+	thunkAPI.dispatch(fetchComments(articleId));
+	return response;
+});
 
 const handleAsyncActions = (builder, asyncThunk, key, actionType = "replace") => {
 	builder

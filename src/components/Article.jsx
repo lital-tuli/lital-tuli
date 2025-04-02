@@ -30,7 +30,6 @@ function Article() {
 
 		fetchArticleAndHisComments();
 	}, [articleId]);
-
 	return (
 		<>
 			{isFetched ? (

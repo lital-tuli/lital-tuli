@@ -63,7 +63,11 @@ export const updateArticle = async (articleId, article) => {
 
 export const partialUpdateArticle = async (articleId, article) => {
 	try {
-		const token = localStorage.getItem("token");
+		const token = await refreshToken();
+		if (!token) {
+			console.log("Token not found");
+			return;
+		}
 		const response = await axios.patch(`${apiUrl}/articles/${articleId}/`, article, {
 			headers: {
 				Authorization: `Bearer ${token}`,
@@ -77,7 +81,11 @@ export const partialUpdateArticle = async (articleId, article) => {
 
 export const deleteArticle = async (articleId) => {
 	try {
-		const token = localStorage.getItem("token");
+		const token = await refreshToken();
+		if (!token) {
+			console.log("Token not found");
+			return;
+		}
 		const response = await axios.delete(`${apiUrl}/articles/${articleId}/`, {
 			headers: {
 				Authorization: `Bearer ${token}`,

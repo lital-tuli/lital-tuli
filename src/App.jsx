@@ -34,7 +34,7 @@ function App() {
 					<Route path='/articles/:articleId' element={<Article />} />
 					<Route path='*' element={<h1>Not Found</h1>} />
 				</Routes>
-				{isAuthenticated && (userGroup.includes("admin") || userGroup.includes("editor")) ? <AddButton /> : null}
+				{isAuthenticated && (userGroup.includes("admin") || userGroup.includes("editors")) ? <AddButton /> : null}
 			</Router>
 		</>
 	);

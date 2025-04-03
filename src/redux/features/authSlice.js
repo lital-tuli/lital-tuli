@@ -48,6 +48,7 @@ const authSlice = createSlice({
 			state.refreshToken = null;
 			state.userGroup = [];
 			state.username = null;
+			state.userId = null;
 			state.isAuthenticated = false;
 			sessionStorage.removeItem("refresh_token");
 		},
@@ -61,6 +62,7 @@ const authSlice = createSlice({
 				state.isAuthenticated = true;
 				state.userGroup = decodedToken.user_group;
 				state.username = decodedToken.username;
+				state.userId = decodedToken.user_id;
 				state.status = "succeeded";
 			})
 			.addCase(loginUser.rejected, (state, action) => {
@@ -72,6 +74,7 @@ const authSlice = createSlice({
 				const decodedToken = parseJwt(access);
 				state.userGroup = decodedToken.groups;
 				state.username = decodedToken.username;
+				state.userId = decodedToken.user_id;
 				state.accessToken = access;
 				state.isAuthenticated = true;
 				state.status = "succeeded";

@@ -50,7 +50,7 @@ function EditArticle() {
 	return (
 		<>
 			<div className='container mt-5 d-flex flex-column align-items-center'>
-				<h1 className='mb-4'>Add Article</h1>
+				<h1 className='mb-4'>Edit Article</h1>
 				<form className='w-50' onSubmit={formik.handleSubmit}>
 					<div className='form-floating mb-3'>
 						<input

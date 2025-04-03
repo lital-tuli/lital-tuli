@@ -45,7 +45,8 @@ export const updateComment = async (comment, commentId) => {
 			console.log("Token not found");
 			return;
 		}
-		const response = await axios.patch(`${apiUrl}/comments/${commentId}/`, comment, {
+		const data = { content: comment.content };
+		const response = await axios.patch(`${apiUrl}/comments/${commentId}/`, data, {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},

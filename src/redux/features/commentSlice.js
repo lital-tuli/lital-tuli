@@ -9,6 +9,11 @@ export const addNewComment = createAsyncThunk("comments/addNewComment", async ({
 	thunkAPI.dispatch(fetchComments(articleId));
 	return response;
 });
+export const editComment = createAsyncThunk("comments/editComment", async ({ comment, commentId, articleId }, thunkAPI) => {
+	const response = await commentService.updateComment(comment, commentId);
+	thunkAPI.dispatch(fetchComments(articleId));
+	return response;
+});
 export const deleteComment = createAsyncThunk("comments/deleteComment", async ({ commentId, articleId }, thunkAPI) => {
 	const response = await commentService.deleteComment(commentId);
 	thunkAPI.dispatch(fetchComments(articleId));

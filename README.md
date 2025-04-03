@@ -55,41 +55,6 @@ A versatile React blog client template built with Vite, Redux Toolkit, and Boots
 
 ---
 
-## Project Structure
-
-```plaintext
-ReactClient_Blog/
-├── public/
-│   └── index.html                 # Main HTML file
-├── src/
-│   ├── assets/                    # Static assets (images, fonts, etc.)
-│   ├── components/                # Reusable React components
-│   │   ├── ArticlesList.jsx       # Component to display articles
-│   │   ├── CommentsList.jsx       # Component to display comments
-│   │   └── Navbar.jsx             # Navigation bar with login/logout
-│   ├── redux/                     # Redux-related files
-│   │   ├── store.js               # Redux store configuration
-│   │   └── features/            
-│   │       ├── articles/          # Articles slice
-│   │       │   └── articlesSlice.js
-│   │       ├── comments/          # Comments slice
-│   │       │   └── commentsSlice.js
-│   │       └── auth/              # Authentication slice
-│   │           └── authSlice.js
-│   ├── services/                  # API service modules
-│   │   ├── articleService.js      # API calls for articles
-│   │   ├── commentService.js      # API calls for comments
-│   │   └── authService.js         # API calls for authentication
-│   ├── App.jsx                    # Root React component
-│   ├── main.jsx                   # Vite entry point; wraps App with Provider
-│   └── index.css                  # Global CSS styles
-├── .eslintrc.js                   # ESLint configuration
-├── package.json                   # Project dependencies and scripts
-└── README.md                      # This file
-```
-
----
-
 ## Technologies Used
 
 - **React** – For building the user interface.

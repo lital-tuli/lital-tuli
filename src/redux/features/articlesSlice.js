@@ -15,6 +15,12 @@ export const addNewArticle = createAsyncThunk("articles/addNewArticle", async (a
 	return response;
 });
 
+export const updateArticle = createAsyncThunk("articles/updateArticle", async ({ articleId, article }, thunkAPI) => {
+	const response = await articleService.partialUpdateArticle(articleId, article);
+	thunkAPI.dispatch(fetchFirstArticles());
+	return response;
+});
+
 export const deleteArticle = createAsyncThunk("articles/deleteArticle", async (articleId, thunkAPI) => {
 	const response = await articleService.deleteArticle(articleId);
 	thunkAPI.dispatch(fetchFirstArticles());

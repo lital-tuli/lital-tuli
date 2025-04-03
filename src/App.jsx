@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { accessToken } from "./redux/features/authSlice";
+import EditArticle from "./components/EditArticle";
 
 function App() {
 	const dispatch = useDispatch();
@@ -32,6 +33,7 @@ function App() {
 					<Route path='/register' element={<Register />} />
 					<Route path='/articles/new' element={<AddArticle />} />
 					<Route path='/articles/:articleId' element={<Article />} />
+					<Route path='/articles/:articleId/edit' element={<EditArticle />} />
 					<Route path='*' element={<h1>Not Found</h1>} />
 				</Routes>
 				{isAuthenticated && (userGroup.includes("admin") || userGroup.includes("editors")) ? <AddButton /> : null}

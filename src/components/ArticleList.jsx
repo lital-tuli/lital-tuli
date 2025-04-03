@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteArticle, fetchFirstArticles } from "../redux/features/articlesSlice";
 import { useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
+import { FaRegEdit } from "react-icons/fa";
 
 function ArticlesList() {
 	const navigate = useNavigate();
@@ -29,6 +30,9 @@ function ArticlesList() {
 	const handleDelete = (articleId) => {
 		dispatch(deleteArticle(articleId));
 	};
+	const handleEdit = (articleId) => {
+		navigate(`/articles/${articleId}/edit`);
+	};
 
 	return (
 		<>
@@ -43,9 +47,10 @@ function ArticlesList() {
 						</div>
 						<p>Written By {article.author_name}</p>
 						<button onClick={() => handleArticleClick(article.id)}>To the full article</button>
-						{userGroup.includes("admin") && (
+						{Array.isArray(userGroup) && userGroup.includes("admin") && (
 							<div className='d-flex justify-content-center gap-2 mt-3'>
 								<MdDelete style={{ height: "1.5rem", width: "1.5rem", cursor: "pointer" }} onClick={() => handleDelete(article.id)} />
+								<FaRegEdit style={{ height: "1.5rem", width: "1.5rem", cursor: "pointer" }} onClick={() => handleEdit(article.id)} />
 							</div>
 						)}
 					</div>

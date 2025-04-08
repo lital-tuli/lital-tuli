@@ -9,6 +9,10 @@ export const fetchArticlesByPage = createAsyncThunk("articles/fetchArticlesByPag
 	return await articleService.getArticlesByPage(pageNum);
 });
 
+export const fetchArticleBySearch = createAsyncThunk("articles/fetchArticleBySearch", async (searchTerm) => {
+	return await articleService.searchArticles(searchTerm);
+});
+
 export const addNewArticle = createAsyncThunk("articles/addNewArticle", async (article, thunkAPI) => {
 	const response = await articleService.createArticle(article);
 	thunkAPI.dispatch(fetchFirstArticles());
@@ -62,6 +66,7 @@ const articlesSlice = createSlice({
 	extraReducers: (builder) => {
 		handleAsyncActions(builder, fetchFirstArticles, "articles", "replace");
 		handleAsyncActions(builder, fetchArticlesByPage, "articles", "append");
+		handleAsyncActions(builder, fetchArticleBySearch, "articles", "replace");
 	},
 });
 

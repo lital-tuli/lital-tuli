@@ -26,6 +26,14 @@ export const getArticleById = async (articleId) => {
 		console.log(error);
 	}
 };
+export const searchArticles = async (searchTerm) => {
+	try {
+		const response = await axios.get(`${apiUrl}/articles/?search=${searchTerm}`);
+		return response.data;
+	} catch (error) {
+		console.log(error);
+	}
+};
 export const createArticle = async (article) => {
 	try {
 		const token = await refreshToken();

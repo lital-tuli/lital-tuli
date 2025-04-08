@@ -53,7 +53,7 @@ function Login() {
 				</button>
 			</form>
 			<p className='text-center'>
-				Don't Have a User? You Can Register <Link to='/signup'>Here</Link>
+				Don't Have a User? You Can Register <Link to='/register'>Here</Link>
 			</p>
 		</>
 	);

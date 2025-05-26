@@ -10,7 +10,7 @@
 
 🔧 **Tech Stack**
 - **Frontend**: HTML, CSS, JavaScript, Sass, Bootstrap
-- **Backend**: Python, Django, Node.js (if applicable)
+- **Backend**: Python, Django, Node.js 
 - **Database**: MongoDB
 - **CMS**: WordPress
 - **Tools**: Git, GitHub, VSCode, Figma, Postman

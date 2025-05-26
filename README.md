@@ -1,4 +1,4 @@
-# 👋 Hi, I'Lital Gehman
+# 👋 Hi, I'm Lital Gehman
 
 **Fullstack Engineer | Backend & Frontend Specialist | Lifelong Learner**
 
